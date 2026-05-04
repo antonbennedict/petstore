@@ -35,4 +35,23 @@ public class PetService {
     public Pet savePet(Pet pet) {
         return petRepository.save(pet);
     }
+
+    public Pet updatePet(Long id, Pet petDetails) {
+        return petRepository.findById(id).map(pet -> {
+            pet.setName(petDetails.getName());
+            pet.setSpecies(petDetails.getSpecies());
+            pet.setBreed(petDetails.getBreed());
+            pet.setAge(petDetails.getAge());
+            pet.setPrice(petDetails.getPrice());
+            pet.setImageUrl(petDetails.getImageUrl());
+            pet.setDescription(petDetails.getDescription());
+            pet.setStatus(petDetails.getStatus());
+            pet.setCategory(petDetails.getCategory());
+            return petRepository.save(pet);
+        }).orElseThrow(() -> new RuntimeException("Pet not found with id " + id));
+    }
+
+    public void deletePet(Long id) {
+        petRepository.deleteById(id);
+    }
 }

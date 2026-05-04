@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/lulu/pets")
-@CrossOrigin(origins = "*")
 public class PetController {
     private final PetService petService;
     private final CategoryRepository categoryRepository;
@@ -43,5 +42,25 @@ public class PetController {
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok(categoryRepository.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<Pet> createPet(@RequestBody Pet pet) {
+        return ResponseEntity.ok(petService.savePet(pet));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pet> updatePet(@PathVariable Long id, @RequestBody Pet pet) {
+        try {
+            return ResponseEntity.ok(petService.updatePet(id, pet));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePet(@PathVariable Long id) {
+        petService.deletePet(id);
+        return ResponseEntity.noContent().build();
     }
 }
