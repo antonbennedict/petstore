@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +27,17 @@ public class PetController {
 
     @GetMapping
     public ResponseEntity<Page<Pet>> getAllPets(
-            @RequestParam Optional<Species> species,
-            @RequestParam Optional<String> search,
+            @RequestParam(required = false) Species species,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
             Pageable pageable) {
-        return ResponseEntity.ok(petService.getAllPets(species, search, pageable));
+        return ResponseEntity.ok(petService.getAllPets(
+                Optional.ofNullable(species), 
+                Optional.ofNullable(search), 
+                minPrice, 
+                maxPrice, 
+                pageable));
     }
 
     @GetMapping("/{id}")

@@ -9,8 +9,11 @@ import {
   MenuItem,
   Grid,
   Box,
-  Typography
+  Typography,
+  Stack,
+  IconButton
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Pet {
   id?: number;
@@ -74,19 +77,43 @@ const PetFormDialog: React.FC<PetFormDialogProps> = ({ open, onClose, onSave, pe
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="sm" 
+      fullWidth
+      PaperProps={{
+        sx: { borderRadius: 4, p: 1 }
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        <DialogTitle>{pet ? 'Edit Pet' : 'Add New Pet'}</DialogTitle>
-        <DialogContent dividers>
-          <Grid container spacing={2}>
+        <DialogTitle sx={{ p: 3, pb: 0 }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h5" fontWeight="900" color="#0f172a">
+              {pet ? 'Edit Member' : 'Add New Member'}
+            </Typography>
+            <IconButton onClick={onClose} size="small">
+              <CloseIcon />
+            </IconButton>
+          </Stack>
+          <Typography variant="body2" color="#64748b" fontWeight="500" sx={{ mt: 1 }}>
+            Fill in the details below to update the gallery.
+          </Typography>
+        </DialogTitle>
+        
+        <DialogContent sx={{ p: 3 }}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
                 name="name"
-                label="Name"
+                label="Member Name"
+                placeholder="e.g. Buddy, Max"
                 fullWidth
                 required
                 value={formData.name}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -98,6 +125,8 @@ const PetFormDialog: React.FC<PetFormDialogProps> = ({ open, onClose, onSave, pe
                 required
                 value={formData.species}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               >
                 <MenuItem value="DOG">Dog</MenuItem>
                 <MenuItem value="CAT">Cat</MenuItem>
@@ -109,73 +138,112 @@ const PetFormDialog: React.FC<PetFormDialogProps> = ({ open, onClose, onSave, pe
               <TextField
                 select
                 name="status"
-                label="Status"
+                label="Availability"
                 fullWidth
                 required
                 value={formData.status}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               >
                 <MenuItem value="AVAILABLE">Available</MenuItem>
-                <MenuItem value="PENDING">Pending</MenuItem>
-                <MenuItem value="SOLD">Sold</MenuItem>
+                <MenuItem value="PENDING">Pending Inquiry</MenuItem>
+                <MenuItem value="SOLD">Adopted</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="breed"
-                label="Breed"
+                label="Specific Breed"
+                placeholder="e.g. Golden Retriever"
                 fullWidth
                 value={formData.breed}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 name="age"
-                label="Age (months)"
+                label="Age (Months)"
                 type="number"
                 fullWidth
                 value={formData.age}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 name="price"
-                label="Price ($)"
+                label="Value ($)"
                 type="number"
                 fullWidth
                 value={formData.price}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="imageUrl"
-                label="Image URL"
+                label="Media URL"
+                placeholder="https://images.unsplash.com/..."
                 fullWidth
                 required
                 value={formData.imageUrl}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
-                label="Description"
+                label="Member Bio / Story"
+                placeholder="Tell us about this companion..."
                 fullWidth
                 multiline
-                rows={3}
+                rows={4}
                 value={formData.description}
                 onChange={handleChange}
+                InputProps={{ sx: { borderRadius: 3, fontWeight: 600 } }}
+                InputLabelProps={{ sx: { fontWeight: 700 } }}
               />
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ p: 2 }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained" color="primary">
-            {pet ? 'Update Pet' : 'Create Pet'}
+        
+        <DialogActions sx={{ p: 3, pt: 0 }}>
+          <Button 
+            onClick={onClose} 
+            sx={{ 
+              borderRadius: 3, 
+              textTransform: 'none', 
+              fontWeight: 800, 
+              color: '#64748b',
+              px: 3
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            type="submit" 
+            variant="contained" 
+            sx={{ 
+              borderRadius: 3, 
+              textTransform: 'none', 
+              fontWeight: 900,
+              bgcolor: '#0f172a',
+              px: 4,
+              py: 1.2,
+              '&:hover': { bgcolor: '#1e293b' }
+            }}
+          >
+            {pet ? 'Save Changes' : 'Confirm Addition'}
           </Button>
         </DialogActions>
       </form>
