@@ -41,13 +41,11 @@ services:
         value: update
 
   # Frontend: React (Vite) Static Site
-  - type: web
+  - type: static
     name: petstore-frontend
-    runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishPath: dist
     routes:
       # Proxy API requests to the backend to avoid CORS and hardcoded URLs
       - type: rewrite
