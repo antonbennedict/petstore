@@ -4,7 +4,7 @@ services:
     name: petstore-backend
     env: java
     plan: free
-    rootContext: backend
+    rootDir: backend
     buildCommand: mvn clean install -DskipTests
     startCommand: java -jar target/petstore-0.0.1-SNAPSHOT.jar
     healthCheckPath: /lulu/pets
@@ -31,12 +31,11 @@ services:
     name: petstore-frontend
     env: static
     plan: free
-    rootContext: frontend
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     routes:
       # Proxy API requests to the backend to avoid CORS and hardcoded URLs
-      # Note: If your backend service name is different, update the destination URL below.
       - type: rewrite
         source: /lulu/*
         destination: https://petstore-backend.onrender.com/lulu/*
