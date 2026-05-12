@@ -10,8 +10,6 @@ import {
   Box, 
   IconButton, 
   Tooltip,
-  FavoriteBorder,
-  Favorite,
   Stack
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
